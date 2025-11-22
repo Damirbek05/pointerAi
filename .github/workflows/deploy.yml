@@ -34,7 +34,26 @@ jobs:
       - name: Build
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: npm run build
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NODE_ENV: production
+          CI: true
+        run: |
+          echo "=== Build Configuration ==="
+          echo "Repository: ${{ github.repository }}"
+          echo "Repository name: ${{ github.event.repository.name }}"
+          echo "NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}"
+          echo "GITHUB_REPOSITORY: ${{ github.repository }}"
+          echo "========================"
+          npm run build
+          echo ""
+          echo "=== Build Output ==="
+          echo "Checking out/ directory structure..."
+          ls -la out/ 2>/dev/null | head -10 || echo "out/ directory not found"
+          if [ -d "out/_next" ]; then
+            echo "✓ _next directory found"
+            ls -la out/_next/static/ 2>/dev/null | head -5 || echo "static files directory not found"
+          fi
+          echo "===================="
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

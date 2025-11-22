@@ -1,36 +1,44 @@
 /** @type {import('next').NextConfig} */
 // Определяем basePath для GitHub Pages
-// Если GITHUB_REPOSITORY установлена (в GitHub Actions), используем имя репозитория
-// Для корневого домена (username.github.io) basePath должен быть пустым
+// Для репозитория pointerAi basePath должен быть /pointerAi
 const getBasePath = () => {
-  // Если явно указан basePath через переменную окружения, используем его
+  // Приоритет 1: Явно указанный через переменную окружения
   if (process.env.NEXT_PUBLIC_BASE_PATH !== undefined) {
-    return process.env.NEXT_PUBLIC_BASE_PATH || '';
+    return process.env.NEXT_PUBLIC_BASE_PATH;
   }
   
+  // Приоритет 2: Определение из GITHUB_REPOSITORY (в GitHub Actions)
   if (process.env.GITHUB_REPOSITORY) {
-    // Формат: username/repo-name, нам нужно только repo-name
-    const [, repoName] = process.env.GITHUB_REPOSITORY.split('/');
+    const parts = process.env.GITHUB_REPOSITORY.split('/');
+    const repoName = parts[1];
     
-    // Если репозиторий называется username.github.io, это корневой домен - basePath пустой
+    // Корневой домен - basePath пустой
     if (repoName && repoName.endsWith('.github.io')) {
       return '';
     }
     
-    // Для обычных репозиториев используем имя репозитория как basePath
-    return repoName ? `/${repoName}` : '';
+    // Обычный репозиторий - используем имя репозитория
+    if (repoName) {
+      return `/${repoName}`;
+    }
   }
   
-  // Для локальной разработки basePath пустой
+  // Локальная разработка - basePath пустой
   return '';
 };
 
 const basePath = getBasePath();
 
+// Логирование для отладки
+console.log('🔧 Next.js Config:');
+console.log('  GITHUB_REPOSITORY:', process.env.GITHUB_REPOSITORY || '(not set)');
+console.log('  basePath:', basePath || '(empty - root domain)');
+console.log('');
+
 const nextConfig = {
   output: 'export',
-  basePath: basePath,
-  assetPrefix: basePath || undefined,
+  ...(basePath && { basePath }),
+  ...(basePath && { assetPrefix: basePath }),
   trailingSlash: true,
   typescript: {
     ignoreBuildErrors: true,
