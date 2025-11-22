@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { getImagePath } from "@/lib/utils"
 
 const testimonials = [
   {
@@ -111,7 +114,7 @@ const TestimonialCard = ({ quote, name, company, avatar, type }) => {
       <div className={`relative z-10 font-normal break-words ${quoteClasses}`}>{quote}</div>
       <div className="relative z-10 flex justify-start items-center gap-3">
         <Image
-          src={avatar || "/placeholder.svg"}
+          src={getImagePath(avatar || "/placeholder.svg")}
           alt={`${name} avatar`}
           width={avatarSize}
           height={avatarSize}

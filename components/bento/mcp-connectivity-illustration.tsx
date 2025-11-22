@@ -1,5 +1,8 @@
+"use client"
+
 import type React from "react"
 import { Search } from "lucide-react"
+import { getImagePath } from "@/lib/utils"
 
 interface McpConnectivityIllustrationProps {
   className?: string
@@ -114,7 +117,7 @@ const McpConnectivityIllustration: React.FC<McpConnectivityIllustrationProps> = 
                   }}
                 >
                   <img
-                    src={integration.icon || "/placeholder.svg"}
+                    src={getImagePath(integration.icon || "/placeholder.svg")}
                     alt={integration.name}
                     className="w-full h-full object-contain opacity-70 grayscale" // Apply opacity and grayscale
                   />

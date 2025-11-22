@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { getImagePath } from "@/lib/utils"
 
 export function SocialProof() {
   return (
@@ -10,7 +13,7 @@ export function SocialProof() {
         {Array.from({ length: 8 }).map((_, i) => (
           <Image
             key={i}
-            src={`/logos/logo0${i + 1}.svg`}
+            src={getImagePath(`/logos/logo0${i + 1}.svg`)}
             alt={`Company Logo ${i + 1}`}
             width={400}
             height={120}
