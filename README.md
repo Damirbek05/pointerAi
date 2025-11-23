@@ -40,7 +40,7 @@ npm install
 npm run dev
 
 
-Откройте в браузере: http://localhost:3000
+Откройте в браузере: https://damirbek05.github.io/pointerAi/
 
 Сборка продакшена
 npm run build
